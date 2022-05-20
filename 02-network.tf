@@ -9,4 +9,16 @@ module "gcp_network" {
       subnet_region = var.region
     }
   ]
+  secondary_ranges = {
+    "${var.subnetwork_name}" = [
+      {
+        range_name = var.ip_range_pods_name
+        ip_cidr_range = "10.20.0.0/16"
+      },
+      {
+        range_name = var.ip_range_services_name
+        ip_cidr_range = "10.30.0.0/16"
+      }
+    ]
+  }
 }
