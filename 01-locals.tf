@@ -7,4 +7,5 @@ locals {
   ip_range_services_name = "k8s-rollout-demo-ip-range-services"
   node_locations = "asia-southeast1-a,asia-southeast1-b,asia-southeast1-c"
   machine_type = "e2-micro"
+  node_pool_name = "gke-node-pool"
 }

@@ -7,9 +7,10 @@ module "gke" {
   subnetwork = module.gcp_network.subnets_names[0]
   ip_range_pods = local.ip_range_pods_name
   ip_range_services = local.ip_range_services_name
+
   node_pools = [
     {
-      name = "gke-node-pool"
+      name = local.node_pool_name
       machine_type = local.machine_type
       node_locations = local.node_locations
       min_count = 2
@@ -17,4 +18,20 @@ module "gke" {
       disk_size_gb = 10
     }
   ]
+
+  node_pools_oauth_scopes = {
+    all = []
+
+    default-node-pool = [
+      "https://www.googleapis.com/auth/cloud-platform",
+    ]
+  }
+
+  node_pools_labels = {
+    all = {}
+
+    default-node-pool = {
+      default-node-pool = true
+    }
+  }
 }
