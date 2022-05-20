@@ -4,12 +4,12 @@ variable "project_id" {
 
 variable "region" {
   description = "Region in which cluster will be created."
-  default = "asia-southeast2"
+  default = "asia-southeast1"
 }
 
 variable "zone" {
   description = "Chosen zone inside region."
-  default = "asia-southeast2-a"
+  default = "asia-southeast1-a"
 }
 
 variable "network_name" {
@@ -30,7 +30,7 @@ variable "ip_range_services_name" {
 
 variable "node_locations" {
   description = "Zone in which K8s nodes will be located. Must be within specified region."
-  default = "asia-southeast2-a,asia-southeast2-b,asia-southeast2-c"
+  default = "asia-southeast1-a,asia-southeast1-b,asia-southeast1-c"
 }
 
 variable "machine_type" {
