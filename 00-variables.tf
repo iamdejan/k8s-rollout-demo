@@ -7,6 +7,11 @@ variable "region" {
   default = "asia-southeast2"
 }
 
+variable "zone" {
+  description = "Chosen zone inside region."
+  default = "asia-southeast2-a"
+}
+
 variable "network_name" {
   default = "k8s-rollout-demo-network"
 }
