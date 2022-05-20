@@ -1,7 +1,7 @@
 module "gcp_network" {
   source = "terraform-google-modules/network/google"
   project_id = var.project_id
-  network_name = var.network_name
+  network_name = local.network_name
   subnets = [
     {
       subnet_name = local.subnetwork_name
@@ -10,7 +10,7 @@ module "gcp_network" {
     }
   ]
   secondary_ranges = {
-    "${var.subnetwork_name}" = [
+    "${local.subnetwork_name}" = [
       {
         range_name = local.ip_range_pods_name
         ip_cidr_range = "10.20.0.0/16"
