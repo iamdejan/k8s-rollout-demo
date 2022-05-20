@@ -4,19 +4,19 @@ module "gcp_network" {
   network_name = var.network_name
   subnets = [
     {
-      subnet_name = var.subnetwork_name
+      subnet_name = local.subnetwork_name
       subnet_ip = "10.10.0.0/16"
-      subnet_region = var.region
+      subnet_region = local.region
     }
   ]
   secondary_ranges = {
     "${var.subnetwork_name}" = [
       {
-        range_name = var.ip_range_pods_name
+        range_name = local.ip_range_pods_name
         ip_cidr_range = "10.20.0.0/16"
       },
       {
-        range_name = var.ip_range_services_name
+        range_name = local.ip_range_services_name
         ip_cidr_range = "10.30.0.0/16"
       }
     ]
