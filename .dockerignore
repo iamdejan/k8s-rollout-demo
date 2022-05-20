@@ -1,0 +1,7 @@
+*.tf
+*.ini
+*.md
+*.hcl
+
+.git
+.github
