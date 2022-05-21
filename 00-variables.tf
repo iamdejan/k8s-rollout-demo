@@ -1,3 +1,7 @@
 variable "project_id" {
-  description = "GCP Project ID in which infrastructure will be provisioned."
+  description = "project id"
+}
+
+variable "region" {
+  description = "region"
 }

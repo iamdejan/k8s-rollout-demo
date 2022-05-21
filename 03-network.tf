@@ -1,24 +1,13 @@
-module "gcp_network" {
-  source = "terraform-google-modules/network/google"
-  project_id = var.project_id
-  network_name = local.network_name
-  subnets = [
-    {
-      subnet_name = local.subnetwork_name
-      subnet_ip = "10.10.0.0/16"
-      subnet_region = local.region
-    }
-  ]
-  secondary_ranges = {
-    "${local.subnetwork_name}" = [
-      {
-        range_name = local.ip_range_pods_name
-        ip_cidr_range = "10.20.0.0/16"
-      },
-      {
-        range_name = local.ip_range_services_name
-        ip_cidr_range = "10.30.0.0/16"
-      }
-    ]
-  }
+# VPC
+resource "google_compute_network" "vpc" {
+  name                    = "${var.project_id}-vpc"
+  auto_create_subnetworks = "false"
+}
+
+# Subnet
+resource "google_compute_subnetwork" "subnet" {
+  name          = "${var.project_id}-subnet"
+  region        = var.region
+  network       = google_compute_network.vpc.name
+  ip_cidr_range = "10.10.0.0/24"
 }
