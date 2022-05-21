@@ -6,7 +6,10 @@ terraform {
     }
   }
 
-  required_version = ">= 0.14"
+  backend "gcs" {
+    bucket = "k8s-rollout-demo-terraform-state"
+    prefix = "/rollout-demo"
+  }
 }
 
 provider "google" {
