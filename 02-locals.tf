@@ -1,3 +1,3 @@
 locals {
-  gke_num_nodes = 2
+  gke_num_nodes = 1
 }
