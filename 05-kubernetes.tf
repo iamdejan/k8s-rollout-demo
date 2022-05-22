@@ -50,7 +50,8 @@ resource "kubernetes_deployment" "simple_api" {
             }
 
             initial_delay_seconds = 30
-            period_seconds        = 15
+            period_seconds        = 20
+            timeout_seconds       = 16
           }
         }
       }
