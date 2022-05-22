@@ -1,0 +1,50 @@
+name: Build and Deploy Image
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  Main:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v3
+      - name: Install Mypy and Pycodestyle
+        run: 'pip install mypy pycodestyle'
+      - name: Install dependencies
+        run: 'pip install -r requirements.txt'
+      - name: Run Mypy and Pycodestyle
+        run: 'mypy main.py && pycodestyle main.py'
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - id: 'auth'
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}'
+      - name: Set up cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
+      - name: Build and push
+        id: build-and-push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: dejan1998/k8s-rollout-demo:latest
+      - name: See SHA256 digest
+        run: 'echo ${{ steps.build-and-push.outputs.digest }}'
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: '<1.2.0'
+      - name: Initialize Terraform
+        run: 'terraform init'
+      - name: Apply Terraform
+        run: "terraform apply -auto-approve -var 'project_id={{ secrets.GCP_PROJECT_ID }}' -var 'image_digest=${{ steps.build-and-push.outputs.digest }}'"

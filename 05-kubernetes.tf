@@ -14,7 +14,7 @@ provider "kubernetes" {
 
 resource "kubernetes_deployment" "simple_api" {
   metadata {
-    name = "${local.k8s_object_name}-deployment"
+    name = local.k8s_object_name
     labels = {
       app = local.k8s_object_name
     }
@@ -55,6 +55,23 @@ resource "kubernetes_deployment" "simple_api" {
           }
         }
       }
+    }
+  }
+}
+
+resource "kubernetes_service" "simple_api" {
+  metadata {
+    name = local.k8s_object_name
+  }
+  spec {
+    type = "LoadBalancer"
+    selector = {
+      app = kubernetes_deployment.simple_api.metadata.0.labels.app
+    }
+
+    port {
+      port        = 8000
+      target_port = 8000
     }
   }
 }
