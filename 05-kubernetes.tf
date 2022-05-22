@@ -70,8 +70,8 @@ resource "kubernetes_service" "simple_api" {
     }
 
     port {
-      port        = 8000
-      target_port = 8000
+      port        = 80
+      target_port = local.k8s_container_port
     }
   }
 }
