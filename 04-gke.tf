@@ -11,6 +11,13 @@ resource "google_container_cluster" "primary" {
 
   network    = google_compute_network.vpc.name
   subnetwork = google_compute_subnetwork.subnet.name
+
+  ip_allocation_policy {
+    cluster_ipv4_cidr_block       = local.pods_cidr_range
+    cluster_secondary_range_name  = "gke-${var.project_id}-gke-pods-72af974f"
+    services_ipv4_cidr_block      = local.services_cidr_range
+    services_secondary_range_name = "gke-${var.project_id}-gke-services-72af974f"
+  }
 }
 
 # Separately Managed Node Pool
