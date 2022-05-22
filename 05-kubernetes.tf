@@ -43,6 +43,15 @@ resource "kubernetes_deployment" "simple_api" {
           port {
             container_port = local.k8s_container_port
           }
+          liveness_probe {
+            http_get {
+              path = "/version"
+              port = local.k8s_container_port
+            }
+
+            initial_delay_seconds = 30
+            period_seconds        = 15
+          }
         }
       }
     }
