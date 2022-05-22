@@ -13,8 +13,8 @@ resource "google_container_cluster" "primary" {
   subnetwork = google_compute_subnetwork.subnet.name
 
   ip_allocation_policy {
-    cluster_ipv4_cidr_block       = local.pods_cidr_range
-    services_ipv4_cidr_block      = local.services_cidr_range
+    cluster_ipv4_cidr_block  = local.pods_cidr_range
+    services_ipv4_cidr_block = local.services_cidr_range
   }
 }
 
