@@ -47,4 +47,4 @@ jobs:
       - name: Initialize Terraform
         run: 'terraform init'
       - name: Apply Terraform
-        run: "terraform apply -auto-approve -var 'project_id={{ secrets.GCP_PROJECT_ID }}' -var 'image_digest=${{ steps.build-and-push.outputs.digest }}'"
+        run: "terraform apply -auto-approve -var 'project_id=${{ secrets.GCP_PROJECT_ID }}' -var 'image_digest=${{ steps.build-and-push.outputs.digest }}'"
