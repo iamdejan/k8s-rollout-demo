@@ -1,13 +1,15 @@
+data "google_client_config" "primary" {
+  depends_on = [google_container_cluster.primary]
+}
+
 provider "kubernetes" {
-  load_config_file = "false"
-
-  host     = google_container_cluster.primary.endpoint
-  username = ""
-  password = ""
-
-  client_certificate     = google_container_cluster.primary.master_auth.0.client_certificate
-  client_key             = google_container_cluster.primary.master_auth.0.client_key
-  cluster_ca_certificate = google_container_cluster.primary.master_auth.0.cluster_ca_certificate
+  host               = "https://${google_container_cluster.primary.endpoint}"
+  token              = data.google_client_config.primary.access_token
+  client_certificate = google_container_cluster.primary.master_auth.0.client_certificate
+  client_key         = google_container_cluster.primary.master_auth.0.client_key
+  cluster_ca_certificate = base64decode(
+    google_container_cluster.primary.master_auth.0.cluster_ca_certificate,
+  )
 }
 
 resource "kubernetes_deployment" "simple_api" {
