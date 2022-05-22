@@ -38,7 +38,7 @@ resource "kubernetes_deployment" "simple_api" {
 
       spec {
         container {
-          image = "asia.gcr.io/${var.project_id}/k8s-rollout-demo@${var.image_digest}"
+          image = "dejan1998/k8s-rollout-demo@${var.image_digest}"
           name  = local.k8s_object_name
           port {
             container_port = local.k8s_container_port
